@@ -120,6 +120,52 @@ void Villain::edit() {
         lvl = getInt();
         break;
     case 6:
+        int choice;
+        std::cout << "1. Add new skill\n" <<
+            "2. Delete skill\n" <<
+            "3. Change curent skill" << std::endl;
+        choice = getInt();
+        if (choice <= 0 || choice >= 3) throw "Out of range";
+
+        if (choice == 1) {
+            ++number_of_skills;
+            char** new_skills = new char* [number_of_skills];
+            for (size_t i = 0; i < number_of_skills; i++) {
+                new_skills[i] = new char[64];
+                ;
+            }
+            for (size_t i = 0; i < number_of_skills - 1; i++) {
+                new_skills[i] = skills[i];
+            }
+            delete[] skills;
+            std::cout << "New skill: ";
+            std::cin >> new_skills[number_of_skills - 1];
+            skills = new_skills;
+
+            break;
+        }
+        if (choice == 2) {
+            std::cout << "Select skill: " << std::endl;
+            for (size_t i = 0; i < number_of_skills; i++) {
+                std::cout << i + 1 << ". " << skills[i] << std::endl;
+            }
+            int selection = getInt();
+            if (selection <= 0 || selection > number_of_skills) throw "There is no such skill";
+
+            --number_of_skills;
+            char** new_skills = new char* [number_of_skills];
+            for (size_t i = 0; i < number_of_skills; i++) {
+                new_skills[i] = new char[64];
+            }
+            for (size_t i = 0, j = 0; i < number_of_skills + 1; i++) {
+                if (i == selection - 1) continue;
+                new_skills[j++] = skills[i];
+            }
+            delete[] skills;
+            skills = new_skills;
+
+            break;
+        }
         if (number_of_skills == 1) {
             std::cout << "New skill: ";
             std::cin >> skills[0];

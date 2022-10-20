@@ -55,6 +55,7 @@ void Keeper::editInformation() {
 }
 
 void Keeper::save() {
+    if (number_of_characters == 0) throw "There are no characters";
     //сохранить всех персонажей в файл
     std::ofstream out("characters.txt");
     if (!out.is_open())
@@ -215,10 +216,9 @@ Character** Keeper::appendToArray(Character* new_character) {
         for (size_t i = 0; i < number_of_characters - 1; i++) {
             new_characters[i] = characters[i];
         }
-
+        delete[] characters;
+        new_characters[number_of_characters - 1] = new_character;
     }
-    new_characters[number_of_characters - 1] = new_character;
-    delete[] characters;
 
     return new_characters;
 }
